@@ -60,15 +60,22 @@ open(FORMAT_FILE, '<:crlf', "$error_format_file") or die "Opening error format f
 my $error_format = <FORMAT_FILE>;
 close(FORMAT_FILE);
 
-$/ = $line_separator;
+# $/ = $line_separator;
 
 my @files = <$include_dir/*.h>;
 my @necessary_include_files;
 my @matches;
 foreach my $file (@files) {
     open(FILE, '<:crlf', "$file");
-    my @grep_res = grep(/^\s*#define\s+MBEDTLS_ERR_\w+\s+\-0x[0-9A-Fa-f]+/, <FILE>);
-    push(@matches, @grep_res);
+    my $content = <FILE>;
+    my @grep_res = $content =~ /^\/\*\*<\s?(.*?)\.?\s?\*\/$\n^\s*#define\s+(MBEDTLS_ERR_\w+)\s+\-(0x[0-9A-Fa-f]+)$/gsm;
+    my @error_details;
+    push @error_details, $2; # error_details[0]: error name
+    push @error_details, $3; # error_details[1]: error code
+    push @error_details, $1; # error_details[2]: error description
+    print("error_details[0]: @grep_res\n");
+
+    push(@matches, \@error_details);
     close FILE;
     my $include_name = $file;
     $include_name =~ s!.*/!!;
@@ -86,11 +93,13 @@ my %included_headers;
 
 my %error_codes_seen;
 
-foreach my $line (@matches)
+foreach my $err (@matches)
 {
-    next if ($line =~ /compat-1.2.h/);
-    my ($error_name, $error_code) = $line =~ /(MBEDTLS_ERR_\w+)\s+\-(0x\w+)/;
-    my ($description) = $line =~ /\/\*\*< (.*?)\.? \*\//;
+    my $error_name = $err->[0];
+    my $error_code = $err->[1];
+    my $description = $err->[2];
+
+    next if ($description =~ /compat-1.2.h/);
 
     die "Duplicated error code: $error_code ($error_name)\n"
         if( $error_codes_seen{$error_code}++ );
