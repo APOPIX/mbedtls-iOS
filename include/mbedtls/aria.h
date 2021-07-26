@@ -45,11 +45,11 @@
 #define MBEDTLS_ARIA_MAX_KEYSIZE \
     32 /**< Maximum size of an ARIA key in bytes. */
 
-// clang-format off
-#define MBEDTLS_ERR_ARIA_BAD_INPUT_DATA -0x005C /**< Bad input data. */
+/**< Bad input data. */
+#define MBEDTLS_ERR_ARIA_BAD_INPUT_DATA -0x005C
 
-#define MBEDTLS_ERR_ARIA_INVALID_INPUT_LENGTH -0x005E /**< Invalid data input length. */
-// clang-format on
+/**< Invalid data input length. */
+#define MBEDTLS_ERR_ARIA_INVALID_INPUT_LENGTH -0x005E
 
 #ifdef __cplusplus
 extern "C" {

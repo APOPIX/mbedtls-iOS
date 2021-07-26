@@ -38,9 +38,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
-// clang-format off
-#define MBEDTLS_ERR_CHACHA20_BAD_INPUT_DATA         -0x0051 /**< Invalid input parameter(s). */
-// clang-format on
+/**< Invalid input parameter(s). */
+#define MBEDTLS_ERR_CHACHA20_BAD_INPUT_DATA         -0x0051
 
 #ifdef __cplusplus
 extern "C" {
