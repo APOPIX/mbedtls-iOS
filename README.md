@@ -1,3 +1,18 @@
+README for Mbed TLS iOS
+===================
+How to build for iOS?
+-------------
+First:
+```
+cd mbedtls-iOS
+sh build_mbedtls_ios.sh
+```
+Second:
+Wait for a minute, then you can get the result at "mbedtls-iOS/prebuild".
+enjoy :)
+
+Thanks to cloudwu.
+
 README for Mbed TLS
 ===================
 
